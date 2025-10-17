@@ -100,6 +100,7 @@ void creation(poly*head){
         }
     }
     }
+    
 
 
 void show(poly* head) {
