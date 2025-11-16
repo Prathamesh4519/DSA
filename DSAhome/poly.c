@@ -102,6 +102,47 @@ poly* add(poly* head1, poly* head2) {
 
     return result;
 }
+poly*multiply(poly*head1,poly*head2){
+    poly*result=NULL;
+
+    while(head1!=NULL){
+          poly* temp2 = head2; 
+        while (temp2!=NULL)
+        {
+              poly*newnode=(poly*)malloc(sizeof(poly));
+        newnode->coff=head1->coff*temp2->coff;
+        newnode->expo=head1->expo+temp2->expo;
+        newnode->next=NULL;
+        if(result==NULL){
+            result=newnode;
+            temp2=temp2->next;
+        }
+        else {
+                poly* prev = NULL;
+                poly* curr = result;
+
+                while (curr != NULL && curr->expo > newnode->expo) {
+                    prev = curr;
+                    curr = curr->next;
+                }
+
+                if (curr != NULL && curr->expo ==  newnode->expo) {
+                    curr->coff += newnode->coff;
+                    free(newnode);
+                } else if (prev == NULL) {
+                    newnode->next = result;
+                    result = newnode;
+                } else {
+                    newnode->next = curr;
+                    prev->next = newnode;
+                }
+                temp2=temp2->next;
+            }
+        }
+        head1=head1->next;
+            }
+            return result;
+}
 
 void display(poly* head) {
     if (head == NULL) {
@@ -128,10 +169,11 @@ int main() {
     printf("Enter second polynomial\n");
     head2 = create(head2);
 
-    poly* result = add(head1, head2);
-
-    printf("Resultant Polynomial after Addition: ");
+    // poly* result = add(head1, head2);
+ poly* result = multiply(head1, head2);
+    // printf("Resultant Polynomial after Addition: ");
+    // display(result);
+ printf("Resultant Polynomial after Multiplication: ");
     display(result);
-
     return 0;
 }
